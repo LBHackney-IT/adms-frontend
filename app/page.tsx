@@ -1,103 +1,159 @@
-import Image from "next/image";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
+import { Button } from "@/components/ui/button"
+import { Users, TrendingUp, AlertCircle, CheckCircle, Clock, FileText, Upload, Activity } from "lucide-react"
 
-export default function Home() {
+async function getDashboardStats() {
+  // Simulate API call
+  await new Promise((resolve) => setTimeout(resolve, 100))
+  return [
+    {
+      title: "Total Students",
+      value: "1,247",
+      change: "+12%",
+      changeType: "positive" as const,
+      icon: Users,
+    },
+    {
+      title: "Active Apprenticeships",
+      value: "892",
+      change: "+8%",
+      changeType: "positive" as const,
+      icon: TrendingUp,
+    },
+    {
+      title: "Pending Reviews",
+      value: "23",
+      change: "-5%",
+      changeType: "negative" as const,
+      icon: Clock,
+    },
+    {
+      title: "Completed This Month",
+      value: "45",
+      change: "+15%",
+      changeType: "positive" as const,
+      icon: CheckCircle,
+    },
+  ]
+}
+
+async function getRecentActivities() {
+  // Simulate API call
+  await new Promise((resolve) => setTimeout(resolve, 100))
+  return [
+    {
+      id: 1,
+      type: "Data Import",
+      description: "CSV file imported successfully - 156 records",
+      timestamp: "2 hours ago",
+      status: "success",
+    },
+    {
+      id: 2,
+      type: "Student Update",
+      description: "John Smith - Status changed to Completed",
+      timestamp: "4 hours ago",
+      status: "info",
+    },
+    {
+      id: 3,
+      type: "System Alert",
+      description: "Google Sheets sync failed - retrying",
+      timestamp: "warning",
+      status: "warning",
+    },
+    {
+      id: 4,
+      type: "Report Generated",
+      description: "Monthly apprenticeship report created",
+      timestamp: "1 day ago",
+      status: "success",
+    },
+  ]
+}
+
+export default async function Dashboard() {
+  const stats = await getDashboardStats()
+  const recentActivities = await getRecentActivities()
+
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm/6 text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-[family-name:var(--font-geist-mono)] font-semibold">
-              app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="p-6 space-y-6">
+      <div>
+        <h1 className="text-3xl font-bold text-foreground">Dashboard</h1>
+        <p className="text-muted-foreground mt-2">Welcome to the Apprenticeship Data Management System</p>
+      </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
-      </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {stats.map((stat) => (
+          <Card key={stat.title}>
+            <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+              <CardTitle className="text-sm font-medium text-muted-foreground">{stat.title}</CardTitle>
+              <stat.icon className="h-4 w-4 text-muted-foreground" />
+            </CardHeader>
+            <CardContent>
+              <div className="text-2xl font-bold text-foreground">{stat.value}</div>
+              <p className="text-xs text-muted-foreground mt-1">
+                <span className={stat.changeType === "positive" ? "text-green-600" : "text-red-600"}>
+                  {stat.change}
+                </span>{" "}
+                from last month
+              </p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <Card>
+          <CardHeader>
+            <CardTitle>Quick Actions</CardTitle>
+            <CardDescription>Common tasks and operations</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <Button className="w-full justify-start bg-transparent" variant="outline">
+              <Upload className="mr-2 h-4 w-4" />
+              Import CSV Data
+            </Button>
+            <Button className="w-full justify-start bg-transparent" variant="outline">
+              <Users className="mr-2 h-4 w-4" />
+              Add New Student
+            </Button>
+            <Button className="w-full justify-start bg-transparent" variant="outline">
+              <FileText className="mr-2 h-4 w-4" />
+              Generate Report
+            </Button>
+            <Button className="w-full justify-start bg-transparent" variant="outline">
+              <Activity className="mr-2 h-4 w-4" />
+              View System Logs
+            </Button>
+          </CardContent>
+        </Card>
+
+        <Card>
+          <CardHeader>
+            <CardTitle>Recent Activity</CardTitle>
+            <CardDescription>Latest system activities and updates</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {recentActivities.map((activity) => (
+                <div key={activity.id} className="flex items-start space-x-3">
+                  <div className="flex-shrink-0">
+                    {activity.status === "success" && <CheckCircle className="h-5 w-5 text-green-500" />}
+                    {activity.status === "warning" && <AlertCircle className="h-5 w-5 text-yellow-500" />}
+                    {activity.status === "info" && <Activity className="h-5 w-5 text-blue-500" />}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className="text-sm font-medium text-foreground">{activity.type}</p>
+                    <p className="text-sm text-muted-foreground">{activity.description}</p>
+                    <p className="text-xs text-muted-foreground mt-1">{activity.timestamp}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+      </div>
     </div>
-  );
+  )
 }
