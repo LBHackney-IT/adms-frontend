@@ -59,12 +59,14 @@ export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }:
     }
   }, [transaction])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
-    const {name, value, type} = e.target;
-    const processedValue = type === 'date' && value ? new Date(value) : (value || null);
-    setFormData(prev => ({...prev, [name]: processedValue}));
-    setHasChanges(true);
-  };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!formData) return
+
+    const { name, value, type } = e.target
+    const processedValue = type === 'date' && value ? new Date(value) : (value || null)
+    setFormData(prev => prev ? { ...prev, [name]: processedValue } : null)
+    setHasChanges(true)
+  }
 
   // Reset form data from the original transaction
   const handleCancel = () => {
@@ -101,7 +103,7 @@ export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }:
       setIsEditing(false)
       setHasChanges(false)
     } catch (err) {
-      console.log(err.message || 'Failed to update transaction');
+      console.log((err as Error).message || 'Failed to update transaction');
     }
   };
 
