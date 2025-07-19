@@ -1,4 +1,3 @@
-
 "use client"
 
 import React from "react"
@@ -53,7 +52,7 @@ export function ApprenticeCreateModal({ isOpen, onClose, handleCreateApprentice 
     directorate: null,
     doeReference: null,
     employeeNumber: null,
-    endDate: null,
+    endDate: new Date(),
     endPointAssessor: null,
     isCareLeaver: false,
     isDisabled: false,
@@ -90,7 +89,7 @@ export function ApprenticeCreateModal({ isOpen, onClose, handleCreateApprentice 
       directorate: null,
       doeReference: null,
       employeeNumber: null,
-      endDate: null,
+      endDate: new Date(),
       endPointAssessor: null,
       isCareLeaver: false,
       isDisabled: false,
@@ -109,7 +108,14 @@ export function ApprenticeCreateModal({ isOpen, onClose, handleCreateApprentice 
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
     const {name, value, type} = e.target;
-    const processedValue = type === 'date' && value ? new Date(value) : (value || null);
+    let processedValue: string | number | Date | null = value;
+    if (type === 'date' && value) {
+      processedValue = new Date(value);
+    } else if (name === 'uln' || name === 'totalAgreedApprenticeshipPrice' || name === 'ukprn') {
+      processedValue = value ? parseInt(value, 10) : null;
+    } else {
+      processedValue = value || null;
+    }
     setFormData(prev => ({...prev, [name]: processedValue}));
   };
 
@@ -127,12 +133,18 @@ export function ApprenticeCreateModal({ isOpen, onClose, handleCreateApprentice 
       await handleCreateApprentice(formData)
       onClose()
       resetForm()
-    } catch (err: any) {
+    } catch (err) {
       console.log(err.message || 'Failed to create apprentice')
     }
   }
 
-  const isFormValid = formData.name.trim() !== "" && formData.uln > 0
+  const isFormValid =
+      formData.name.trim() !== "" &&
+      formData.uln > 0 &&
+      formData.startDate &&
+      formData.endDate &&
+      formData.status &&
+      formData.dateOfBirth;
 
   return (
       <Sheet open={isOpen} onOpenChange={onClose}>

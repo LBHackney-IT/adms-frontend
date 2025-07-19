@@ -19,8 +19,8 @@ import {
   SheetTitle,
 } from "@/components/ui/sheet"
 import { TransactionDetailModal } from "@/components/transactions/transaction-detail-modal"
-import type { Apprentice, ApprenticeCreate } from "@/types/apprentice"
-import type { Transaction, TransactionCreate } from "@/types/transaction"
+import type { Apprentice, ApprenticeUpdate } from "@/types/apprentice"
+import type {Transaction, TransactionUpdate} from "@/types/transaction"
 import {
   Status,
   DirectorateCode,
@@ -38,11 +38,11 @@ interface ApprenticeDetailPanelProps {
   apprentice: Apprentice | null
   isOpen: boolean
   onClose: () => void
-  onSave: (apprentice: ApprenticeCreate) => void
+  onSave: (apprentice: ApprenticeUpdate) => void
 }
 
 export function ApprenticeDetailModal({ apprentice, isOpen, onClose, onSave }: ApprenticeDetailPanelProps) {
-  const [formData, setFormData] = React.useState<ApprenticeCreate | null>(null)
+  const [formData, setFormData] = React.useState<ApprenticeUpdate | null>(null)
   const [isEditing, setIsEditing] = React.useState(false)
   const [hasChanges, setHasChanges] = React.useState(false)
   const [selectedTransaction, setSelectedTransaction] = React.useState<Transaction | null>(null)
@@ -50,12 +50,14 @@ export function ApprenticeDetailModal({ apprentice, isOpen, onClose, onSave }: A
 
   React.useEffect(() => {
     if (apprentice) {
-      // Convert Apprentice to ApprenticeCreate for editing
-      const apprenticeCreate: ApprenticeCreate = {
+      // Convert Apprentice to ApprenticeUpdate for editing
+      const apprenticeUpdate: ApprenticeUpdate = {
+        id: apprentice.id,
         name: apprentice.name,
         startDate: apprentice.startDate,
         status: apprentice.status,
         uln: apprentice.uln,
+        createdAt: apprentice.createdAt,
         dateOfBirth: apprentice.dateOfBirth,
         apprenticeAchievement: apprentice.apprenticeAchievement,
         apprenticeConfirmation: apprentice.apprenticeConfirmation,
@@ -86,7 +88,7 @@ export function ApprenticeDetailModal({ apprentice, isOpen, onClose, onSave }: A
         ukprn: apprentice.ukprn,
         withdrawalDate: apprentice.withdrawalDate,
       }
-      setFormData(apprenticeCreate)
+      setFormData(apprenticeUpdate)
       setIsEditing(false)
       setHasChanges(false)
     }
@@ -119,11 +121,13 @@ export function ApprenticeDetailModal({ apprentice, isOpen, onClose, onSave }: A
   // Reset form data from the original apprentice
   const handleCancel = () => {
     if (apprentice) {
-      const apprenticeCreate: ApprenticeCreate = {
+      const apprenticeUpdate: ApprenticeUpdate = {
+        id: apprentice.id,
         name: apprentice.name,
         startDate: apprentice.startDate,
         status: apprentice.status,
         uln: apprentice.uln,
+        createdAt: apprentice.createdAt,
         dateOfBirth: apprentice.dateOfBirth,
         apprenticeAchievement: apprentice.apprenticeAchievement,
         apprenticeConfirmation: apprentice.apprenticeConfirmation,
@@ -154,7 +158,7 @@ export function ApprenticeDetailModal({ apprentice, isOpen, onClose, onSave }: A
         ukprn: apprentice.ukprn,
         withdrawalDate: apprentice.withdrawalDate,
       }
-      setFormData(apprenticeCreate)
+      setFormData(apprenticeUpdate)
       setIsEditing(false)
       setHasChanges(false)
     }
@@ -177,8 +181,7 @@ export function ApprenticeDetailModal({ apprentice, isOpen, onClose, onSave }: A
     setIsTransactionPanelOpen(true)
   }
 
-  const handleTransactionSave = (updatedTransaction: TransactionCreate) => {
-    console.log("Transaction updated:", updatedTransaction)
+  const handleTransactionSave = (updatedTransaction: TransactionUpdate) => {
     setIsTransactionPanelOpen(false)
     setSelectedTransaction(null)
   }

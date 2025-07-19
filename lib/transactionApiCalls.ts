@@ -25,7 +25,7 @@ export const createTransaction = async (transaction: TransactionCreate) => {
   }
 }
 
-export const getAllTransactions = async () => {
+export const getAllTransactions = async () : Promise<Transaction[] | undefined> => {
   try{
     const response = await fetch(`/api/Transactions/all`, {
       method: "GET",
@@ -34,7 +34,7 @@ export const getAllTransactions = async () => {
       },
     })
     if (response.ok) {
-      const result = await response.json()
+      const result = (await response.json()) as Transaction[]
       return result
     } else {
       throw new Error(`HTTP error! status: ${response.status}`)

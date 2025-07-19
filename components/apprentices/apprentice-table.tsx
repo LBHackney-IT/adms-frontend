@@ -31,11 +31,10 @@ export function ApprenticeTable({ apprentices }: ApprenticeTableProps) {
 
   const handleUpdateApprentice = async (updatedApprentice: ApprenticeUpdate) => {
     try {
-      const updatingApprentice = await updateApprentice(updatedApprentice)
-      console.log("Saving apprentice:", updatingApprentice)
+      await updateApprentice(updatedApprentice)
       setIsPanelOpen(false)
-    } catch (e) {
-      console.log('Failed to update apprentice')
+    } catch (err) {
+      console.log((err as Error).message || 'Failed to update apprentice')
     }
   }
 

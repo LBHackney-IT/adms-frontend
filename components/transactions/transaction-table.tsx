@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip"
 import { MoreHorizontal, ArrowUpDown, Eye, Edit, Download, ChevronLeft, ChevronRight } from "lucide-react"
 import { TransactionDetailModal } from "./transaction-detail-modal"
-import type { Transaction, TransactionCreate } from "@/types/transaction"
+import type {Transaction, TransactionUpdate} from "@/types/transaction"
 import {updateTransaction} from "@/lib/transactionApiCalls";
 
 
@@ -29,10 +29,9 @@ export function TransactionTable({transactions}: TransactionTableProps) {
     setIsPanelOpen(true)
   }
 
-  const handleUpdateTransaction = async (utransaction: TransactionCreate) => {
+  const handleUpdateTransaction = async (utransaction: TransactionUpdate) => {
     try {
-      const updatingTransaction = await updateTransaction(utransaction);
-      console.log("Saving transaction:", updatingTransaction)
+      await updateTransaction(utransaction);
       setIsPanelOpen(false)
     } catch (e) {
       console.log('Failed to create transaction');
