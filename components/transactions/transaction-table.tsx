@@ -9,7 +9,7 @@ import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/comp
 import { MoreHorizontal, ArrowUpDown, Eye, Edit, Download, ChevronLeft, ChevronRight } from "lucide-react"
 import { TransactionDetailModal } from "./transaction-detail-modal"
 import type { Transaction, TransactionCreate } from "@/types/transaction"
-import {updateTransaction} from "@/lib/fetch-calls";
+import {updateTransaction} from "@/lib/transactionApiCalls";
 
 
 interface TransactionTableProps {

@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { Search, X } from "lucide-react"
-import { findApprentices } from "@/lib/fetch-calls"
+import { findApprentices } from "@/lib/apprenticeApiCalls";
 import { Apprentice, ApprenticeFind } from "@/types/apprentice"
 import { Status, DirectorateCode, ApprenticeshipProgram } from "@/types/enums"
 

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -27,11 +27,11 @@ interface TransactionDetailPanelProps {
 }
 
 export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }: TransactionDetailPanelProps) {
-  const [formData, setFormData] = useState<TransactionCreate | null>(null)
-  const [isEditing, setIsEditing] = useState(false)
-  const [hasChanges, setHasChanges] = useState(false)
+  const [formData, setFormData] = React.useState<TransactionCreate | null>(null)
+  const [isEditing, setIsEditing] = React.useState(false)
+  const [hasChanges, setHasChanges] = React.useState(false)
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (transaction) {
       // Convert Transaction to TransactionCreate for editing
       const transactionCreate: TransactionCreate = {

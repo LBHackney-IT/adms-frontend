@@ -52,3 +52,25 @@ export interface TransactionCreate {
   trainingProvider: string | null
   uln: number | null
 }
+
+export interface TransactionUpdate {
+  readonly id: string
+  description: string
+  transactionDate: Date
+  transactionType: string
+  readonly createdAt: Date
+  courseLevel: number
+  englishPercentage: number
+  governmentContribution: number
+  levyDeclared: number
+  paidFromLevy: number
+  payrollMonth: Date
+  tenPercentageTopUp: number
+  total: number
+  yourContribution: number
+  apprenticeName: string | null
+  apprenticeshipTrainingCourse: string | null
+  payeScheme: string | null
+  trainingProvider: string | null
+  uln: number | null
+}

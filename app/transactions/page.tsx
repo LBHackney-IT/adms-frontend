@@ -3,7 +3,7 @@
 import React from "react"
 import { TransactionSearch } from "@/components/transactions/transaction-search"
 import { TransactionTable } from "@/components/transactions/transaction-table"
-import { getAllTransactions, createTransaction } from "@/lib/fetch-calls"
+import { getAllTransactions, createTransaction } from "@/lib/transactionApiCalls"
 import {TransactionCreateModal} from "@/components/transactions/transaction-create-modal";
 import type {Transaction, TransactionCreate} from "@/types/transaction";
 import {Button} from "@/components/ui/button";
@@ -31,7 +31,7 @@ export default function TransactionsPage() {
 
     //handle function for creating new transaction
     const handleCreateTransaction = async (userAddedTransaction: TransactionCreate) => {
-        const newTransaction = await createTransaction(userAddedTransaction);
+        await createTransaction(userAddedTransaction);
         setCreateModalOpen(false)
     }
 
