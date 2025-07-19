@@ -71,6 +71,18 @@ export function TransactionSearch({ setTransactionsState }: TransactionSearchPro
     return filters
   }
 
+  //AIing
+  const formatDateForInput = (date: Date | null): string => {
+    if (!date) {
+      return "";
+    }
+    // Format the date to "YYYY-MM-DD"
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDate().toString().padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const activeFilters = getActiveFilters();
 
   return (
@@ -98,7 +110,7 @@ export function TransactionSearch({ setTransactionsState }: TransactionSearchPro
                   id="from-date"
                   name="fromDate"
                   type="date"
-                  value={transactionQuery.fromDate}
+                  value={formatDateForInput(transactionQuery.fromDate)}
                   onChange={handleInputChange}
               />
             </div>
@@ -111,7 +123,7 @@ export function TransactionSearch({ setTransactionsState }: TransactionSearchPro
                   id="to-date"
                   name="toDate"
                   type="date"
-                  value={transactionQuery.toDate}
+                  value={formatDateForInput(transactionQuery.toDate)}
                   onChange={handleInputChange}
               />
             </div>

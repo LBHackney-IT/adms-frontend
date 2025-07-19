@@ -65,7 +65,7 @@ export const findTransactions = async (transactionQuery: TransactionFind) => {
   if (transactionQuery.description) {
     queryParams.append('description', transactionQuery.description)
   }
-  console.log( "query params", queryParams.toString())
+
   try{
     const response = await fetch(`/api/Transactions/find?${queryParams.toString()}`, {
       method: "GET",
