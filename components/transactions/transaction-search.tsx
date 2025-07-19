@@ -73,15 +73,6 @@ export function TransactionSearch({ setTransactionsState }: TransactionSearchPro
 
   const activeFilters = getActiveFilters();
 
-  //had to ask AI for help with this as i kept getting an error when i was trying to display the transactionQuery data
-  //in the value property of the inputs
-  const formatDateForInput = (date: Date | null) => {
-    if (!date) return '';
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-    return `${date.getFullYear()}-${month}-${day}`;
-  };
-
   return (
       <Card>
         <CardHeader>
@@ -107,7 +98,7 @@ export function TransactionSearch({ setTransactionsState }: TransactionSearchPro
                   id="from-date"
                   name="fromDate"
                   type="date"
-                  value={formatDateForInput(transactionQuery.fromDate)}
+                  value={transactionQuery.fromDate}
                   onChange={handleInputChange}
               />
             </div>
@@ -120,7 +111,7 @@ export function TransactionSearch({ setTransactionsState }: TransactionSearchPro
                   id="to-date"
                   name="toDate"
                   type="date"
-                  value={formatDateForInput(transactionQuery.toDate)}
+                  value={transactionQuery.toDate}
                   onChange={handleInputChange}
               />
             </div>

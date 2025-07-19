@@ -17,7 +17,7 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
-import type {Transaction, TransactionCreate} from "@/types/transaction"
+import {Transaction, TransactionCreate, TransactionUpdate} from "@/types/transaction"
 
 interface TransactionDetailPanelProps {
   transaction: Transaction | null
@@ -27,14 +27,15 @@ interface TransactionDetailPanelProps {
 }
 
 export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }: TransactionDetailPanelProps) {
-  const [formData, setFormData] = React.useState<TransactionCreate | null>(null)
+  const [formData, setFormData] = React.useState<TransactionUpdate | null>(null)
   const [isEditing, setIsEditing] = React.useState(false)
   const [hasChanges, setHasChanges] = React.useState(false)
 
   React.useEffect(() => {
     if (transaction) {
-      // Convert Transaction to TransactionCreate for editing
-      const transactionCreate: TransactionCreate = {
+      const transactionUpdate: TransactionUpdate = {
+        id: transaction.id,
+        createdAt: transaction.createdAt,
         description: transaction.description,
         transactionDate: transaction.transactionDate,
         transactionType: transaction.transactionType,
@@ -53,7 +54,7 @@ export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }:
         trainingProvider: transaction.trainingProvider,
         uln: transaction.uln,
       }
-      setFormData(transactionCreate)
+      setFormData(transactionUpdate)
       setIsEditing(false)
       setHasChanges(false)
     }
@@ -71,7 +72,9 @@ export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }:
   // Reset form data from the original transaction
   const handleCancel = () => {
     if (transaction) {
-      const transactionCreate: TransactionCreate = {
+      const transactionUpdate: TransactionUpdate = {
+        id: transaction.id,
+        createdAt: transaction.createdAt,
         description: transaction.description,
         transactionDate: transaction.transactionDate,
         transactionType: transaction.transactionType,
@@ -90,7 +93,7 @@ export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }:
         trainingProvider: transaction.trainingProvider,
         uln: transaction.uln,
       }
-      setFormData(transactionCreate)
+      setFormData(transactionUpdate)
       setIsEditing(false)
       setHasChanges(false)
     }

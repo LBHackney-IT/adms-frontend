@@ -181,7 +181,7 @@ export function ApprenticeDetailModal({ apprentice, isOpen, onClose, onSave }: A
     setIsTransactionPanelOpen(true)
   }
 
-  const handleTransactionSave = (updatedTransaction: TransactionUpdate) => {
+  const handleTransactionSave = () => {
     setIsTransactionPanelOpen(false)
     setSelectedTransaction(null)
   }

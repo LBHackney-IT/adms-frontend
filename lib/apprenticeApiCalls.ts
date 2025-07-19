@@ -61,7 +61,6 @@ const convertApprenticeEnumsForApi = (apprentice: ApprenticeCreate | ApprenticeU
 export const createApprentice = async (apprentice: ApprenticeCreate) => {
     try{
         const apprenticeForApi = convertApprenticeEnumsForApi(apprentice);
-        console.log("Data being sent:", JSON.stringify(apprenticeForApi, null, 2));
         const response = await fetch(`/api/Apprentices/create`, {
             method: "POST",
             headers: {
@@ -70,18 +69,20 @@ export const createApprentice = async (apprentice: ApprenticeCreate) => {
             body: JSON.stringify(apprenticeForApi)
         })
         if (response.ok) {
-            await response.json();
+            const responseBody = await response.text();
+            if (responseBody) {
+                return JSON.parse(responseBody);
+            }
             return null;
         } else {
             const errorBody = await response.text();
-            throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`)
+            throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
         }
-
-    } catch(error){
+    } catch (error) {
         if (error instanceof Error) {
-            alert(error.message)
+            alert(error.message);
         } else {
-            alert("An unexpected error occurred")
+            alert("An unexpected error occurred");
         }
     }
 }
@@ -128,7 +129,7 @@ export const findApprentices = async (apprenticeQuery: ApprenticeFind) => {
         const index = Object.values(DirectorateCode).indexOf(apprenticeQuery.directorate as DirectorateCode);
         if (index > -1) queryParams.append('directorate', index.toString())
     }
-    console.log("Query params:", queryParams.toString());
+
     try{
         const response = await fetch(`/api/Apprentices/find?${queryParams.toString()}`, {
             method: "GET",
@@ -154,7 +155,7 @@ export const findApprentices = async (apprenticeQuery: ApprenticeFind) => {
 }
 
 export const updateApprentice = async (updatedapprentice: ApprenticeUpdate) => {
-    console.log("Data being sent:", JSON.stringify(convertApprenticeEnumsForApi(updatedapprentice), null, 2));
+
     try{
         const apprenticeForApi = convertApprenticeEnumsForApi(updatedapprentice);
         const response = await fetch(`/api/Apprentices`, {
@@ -165,18 +166,20 @@ export const updateApprentice = async (updatedapprentice: ApprenticeUpdate) => {
             body: JSON.stringify(apprenticeForApi)
         })
         if (response.ok) {
-            const result = await response.json()
-            console.log("Result:", result);
+            const responseBody = await response.text();
+            if (responseBody) {
+                return JSON.parse(responseBody);
+            }
+            return null;
         } else {
             const errorBody = await response.text();
-            throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`)
+            throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
         }
-
-    } catch(error){
+    } catch (error) {
         if (error instanceof Error) {
-            alert(error.message)
+            alert(error.message);
         } else {
-            alert("An unexpected error occurred")
+            alert("An unexpected error occurred");
         }
     }
 }
@@ -191,18 +194,20 @@ export const deleteApprentice = async (apprenticeId: string) => {
         })
 
         if (response.ok) {
-            const result = await response.json()
-            console.log("Result:", result);
+            const responseBody = await response.text();
+            if (responseBody) {
+                return JSON.parse(responseBody);
+            }
+            return null;
         } else {
             const errorBody = await response.text();
-            throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`)
+            throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
         }
-
-    } catch(error){
+    } catch (error) {
         if (error instanceof Error) {
-            alert(error.message)
+            alert(error.message);
         } else {
-            alert("An unexpected error occurred")
+            alert("An unexpected error occurred");
         }
     }
 }

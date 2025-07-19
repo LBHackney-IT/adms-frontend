@@ -10,17 +10,20 @@ export const createTransaction = async (transaction: TransactionCreate) => {
       body: JSON.stringify(transaction)
     })
     if (response.ok) {
-      const result = await response.json()
-      return result
+      const responseBody = await response.text();
+      if (responseBody) {
+        return JSON.parse(responseBody);
+      }
+      return null;
     } else {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const errorBody = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
     }
-
-  } catch(error){
+  } catch (error) {
     if (error instanceof Error) {
-      alert(error.message)
+      alert(error.message);
     } else {
-      alert("An unexpected error occurred")
+      alert("An unexpected error occurred");
     }
   }
 }
@@ -37,7 +40,8 @@ export const getAllTransactions = async () : Promise<Transaction[] | undefined> 
       const result = (await response.json()) as Transaction[]
       return result
     } else {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const errorBody = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`)
     }
 
   } catch(error){
@@ -61,9 +65,9 @@ export const findTransactions = async (transactionQuery: TransactionFind) => {
   if (transactionQuery.description) {
     queryParams.append('description', transactionQuery.description)
   }
-
+  console.log( "query params", queryParams.toString())
   try{
-    const response = await fetch(`/api/Transactions/find${queryParams}`, {
+    const response = await fetch(`/api/Transactions/find?${queryParams.toString()}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -73,7 +77,8 @@ export const findTransactions = async (transactionQuery: TransactionFind) => {
       const result = await response.json()
       return result
     } else {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const errorBody = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`)
     }
 
   } catch(error){
@@ -86,29 +91,33 @@ export const findTransactions = async (transactionQuery: TransactionFind) => {
 }
 
 export const updateTransaction = async (transaction: TransactionUpdate) => {
-  try{
+  try {
     const response = await fetch(`/api/Transactions`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(transaction)
-    })
-    if (response.ok) {
-      const result = await response.json()
-      return result
-    } else {
-      throw new Error(`HTTP error! status: ${response.status}`)
-    }
+      body: JSON.stringify(transaction),
+    });
 
-  } catch(error){
-    if (error instanceof Error) {
-      alert(error.message)
+    if (response.ok) {
+      const responseBody = await response.text();
+      if (responseBody) {
+        return JSON.parse(responseBody);
+      }
+      return null;
     } else {
-      alert("An unexpected error occurred")
+      const errorBody = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message);
+    } else {
+      alert("An unexpected error occurred");
     }
   }
-}
+};
 
 export const deleteTransaction = async (transactionId: string) => {
   try {
@@ -120,16 +129,20 @@ export const deleteTransaction = async (transactionId: string) => {
     })
 
     if (response.ok) {
-      const result = await response.json()
-      return result
+      const responseBody = await response.text();
+      if (responseBody) {
+        return JSON.parse(responseBody);
+      }
+      return null;
     } else {
-      throw new Error(`HTTP error! status: ${response.status}`)
+      const errorBody = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
     }
   } catch (error) {
     if (error instanceof Error) {
-      alert(error.message)
+      alert(error.message);
     } else {
-      alert("An unexpected error occurred")
+      alert("An unexpected error occurred");
     }
   }
 }
