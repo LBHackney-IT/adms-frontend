@@ -21,6 +21,7 @@ import {
 import { TransactionDetailModal } from "@/components/transactions/transaction-detail-modal"
 import type { Apprentice, ApprenticeUpdate } from "@/types/apprentice"
 import type {Transaction, TransactionUpdate} from "@/types/transaction"
+import { updateTransaction } from "@/lib/transactionApiCalls"
 import {
   Status,
   DirectorateCode,
@@ -181,9 +182,20 @@ export function ApprenticeDetailModal({ apprentice, isOpen, onClose, onSave }: A
     setIsTransactionPanelOpen(true)
   }
 
-  const handleTransactionSave = () => {
-    setIsTransactionPanelOpen(false)
-    setSelectedTransaction(null)
+  const handleTransactionSave = async (updatedTransaction: TransactionUpdate) => {
+    if (updatedTransaction) {
+      try {
+        await updateTransaction(updatedTransaction);
+        // Optionally, refresh the apprentice data to reflect the updated transaction
+        // This might involve calling a prop function passed from the parent component
+        // or re-fetching the apprentice data. For now, we'll just close the panel.
+        setIsTransactionPanelOpen(false);
+        setSelectedTransaction(null);
+      } catch (error) {
+        console.error("Failed to update transaction:", error);
+        // Handle error, e.g., show a toast notification
+      }
+    }
   }
 
   if (!formData || !apprentice) return null

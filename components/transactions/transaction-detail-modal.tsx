@@ -17,13 +17,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
-import {Transaction, TransactionCreate, TransactionUpdate} from "@/types/transaction"
+import {Transaction, TransactionUpdate} from "@/types/transaction"
 
 interface TransactionDetailPanelProps {
   transaction: Transaction | null
   isOpen: boolean
   onClose: () => void
-  onSave: (transaction: TransactionCreate) => void
+  onSave: (transaction: TransactionUpdate) => void
 }
 
 export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }: TransactionDetailPanelProps) {
