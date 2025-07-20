@@ -28,6 +28,34 @@ export const createTransaction = async (transaction: TransactionCreate) => {
   }
 }
 
+export const uploadTransactions = async (transactions: TransactionCreate[]) => {
+  try{
+    const response = await fetch(`/api/Transactions/upload`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(transactions)
+    })
+    if (response.ok) {
+      const responseBody = await response.text();
+      if (responseBody) {
+        return JSON.parse(responseBody);
+      }
+      return null;
+    } else {
+      const errorBody = await response.text();
+      throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
+    }
+  } catch (error) {
+    if (error instanceof Error) {
+      alert(error.message);
+    } else {
+      alert("An unexpected error occurred");
+    }
+  }
+}
+
 export const getAllTransactions = async () : Promise<Transaction[] | undefined> => {
   try{
     const response = await fetch(`/api/Transactions/all`, {
