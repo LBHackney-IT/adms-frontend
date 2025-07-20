@@ -30,10 +30,6 @@ export default function ApprenticeUpsert() {
         }
     }
 
-    const handleFileDrop = () => {
-
-    }
-
     return(
     <Card>
         <CardHeader>
