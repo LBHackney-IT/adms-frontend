@@ -87,6 +87,37 @@ export const createApprentice = async (apprentice: ApprenticeCreate) => {
     }
 }
 
+export const uploadApprentices = async (apprentices: ApprenticeCreate[]) => {
+    try{
+        const apprenticesForApi = apprentices.map(apprentice =>
+            convertApprenticeEnumsForApi(apprentice)
+        );
+        const response = await fetch(`/api/Apprentices/upload`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(apprenticesForApi)
+        })
+        if (response.ok) {
+            const responseBody = await response.text();
+            if (responseBody) {
+                return JSON.parse(responseBody);
+            }
+            return null;
+        } else {
+            const errorBody = await response.text();
+            throw new Error(`HTTP error! status: ${response.status}, body: ${errorBody}`);
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            alert(error.message);
+        } else {
+            alert("An unexpected error occurred");
+        }
+    }
+}
+
 export const getAllApprentices = async () : Promise<Apprentice[] | undefined> => {
     try{
         const response = await fetch(`/api/Apprentices/all`, {

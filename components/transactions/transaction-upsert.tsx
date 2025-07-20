@@ -62,12 +62,10 @@ export default function TransactionUpsert() {
             dynamicTyping: false, // Changed to false for better control
             delimitersToGuess: [',', ';', '\t', '|'],
             transformHeader: (header: string) => {
-                // More robust header transformation
                 const transformed = header.trim()
                     .replace(/\s+/g, ' ')
-                    .replace(/[^\w\s%]/g, '') // Remove special characters except %
+                    .replace(/[^\w\s%]/g, '')
                     .trim();
-                console.log('Transformed header:', `"${header}" -> "${transformed}"`);
                 return transformed;
             },
             transform: (value: any, field: string | number) => {
@@ -112,7 +110,6 @@ export default function TransactionUpsert() {
                     // Handle date fields
                     const dateFields = ['Transaction date', 'Payroll month'];
                     if (typeof field === 'string' && dateFields.includes(field)) {
-                        // Only return the string, date parsing will happen during transformation
                         return trimmedValue;
                     }
                 }
@@ -134,10 +131,6 @@ export default function TransactionUpsert() {
             complete: (results: Papa.ParseResult<ParsedData>) => {
                 setIsUploading(false);
                 setUploadProgress(100);
-
-                console.log('Parse errors:', results.errors);
-                console.log('Total collected rows:', collectedRows.length);
-                console.log('First few rows:', collectedRows.slice(0, 3));
 
                 // Handle parse errors
                 if (results.errors.length > 0) {
@@ -169,7 +162,6 @@ export default function TransactionUpsert() {
                     })
                     .map(row => transformRowToTransaction(row));
 
-                console.log('Processed data:', processedData.slice(0, 3));
                 setJsonData(processedData);
                 uploadTransactions(processedData);
             },
