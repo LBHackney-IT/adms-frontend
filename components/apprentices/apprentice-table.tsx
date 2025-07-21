@@ -8,8 +8,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from "@/components/ui/tooltip"
 import { MoreHorizontal, ArrowUpDown, Eye, Edit, Download, ChevronLeft, ChevronRight } from "lucide-react"
 import { ApprenticeDetailModal } from "./apprentice-detail-modal"
-import type { Apprentice, ApprenticeCreate } from "@/types/apprentice"
-import { updateApprentice } from "@/lib/fetch-calls"
+import type { Apprentice, ApprenticeUpdate } from "@/types/apprentice"
+import {updateApprentice} from "@/lib/apprenticeApiCalls";
 
 
 interface ApprenticeTableProps {
@@ -29,13 +29,12 @@ export function ApprenticeTable({ apprentices }: ApprenticeTableProps) {
     setIsPanelOpen(true)
   }
 
-  const handleUpdateApprentice = async (uapprentice: ApprenticeCreate) => {
+  const handleUpdateApprentice = async (updatedApprentice: ApprenticeUpdate) => {
     try {
-      const updatingApprentice = await updateApprentice(uapprentice)
-      console.log("Saving apprentice:", updatingApprentice)
+      await updateApprentice(updatedApprentice)
       setIsPanelOpen(false)
-    } catch (e) {
-      console.log('Failed to update apprentice')
+    } catch (err) {
+      console.log((err as Error).message || 'Failed to update apprentice')
     }
   }
 

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useEffect } from "react"
+import React from "react"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -17,24 +17,25 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet"
-import type {Transaction, TransactionCreate} from "@/types/transaction"
+import {Transaction, TransactionUpdate} from "@/types/transaction"
 
 interface TransactionDetailPanelProps {
   transaction: Transaction | null
   isOpen: boolean
   onClose: () => void
-  onSave: (transaction: TransactionCreate) => void
+  onSave: (transaction: TransactionUpdate) => void
 }
 
 export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }: TransactionDetailPanelProps) {
-  const [formData, setFormData] = useState<TransactionCreate | null>(null)
-  const [isEditing, setIsEditing] = useState(false)
-  const [hasChanges, setHasChanges] = useState(false)
+  const [formData, setFormData] = React.useState<TransactionUpdate | null>(null)
+  const [isEditing, setIsEditing] = React.useState(false)
+  const [hasChanges, setHasChanges] = React.useState(false)
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (transaction) {
-      // Convert Transaction to TransactionCreate for editing
-      const transactionCreate: TransactionCreate = {
+      const transactionUpdate: TransactionUpdate = {
+        id: transaction.id,
+        createdAt: transaction.createdAt,
         description: transaction.description,
         transactionDate: transaction.transactionDate,
         transactionType: transaction.transactionType,
@@ -53,23 +54,27 @@ export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }:
         trainingProvider: transaction.trainingProvider,
         uln: transaction.uln,
       }
-      setFormData(transactionCreate)
+      setFormData(transactionUpdate)
       setIsEditing(false)
       setHasChanges(false)
     }
   }, [transaction])
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) =>{
-    const {name, value, type} = e.target;
-    const processedValue = type === 'date' && value ? new Date(value) : (value || null);
-    setFormData(prev => ({...prev, [name]: processedValue}));
-    setHasChanges(true);
-  };
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (!formData) return
+
+    const { name, value, type } = e.target
+    const processedValue = type === 'date' && value ? new Date(value) : (value || null)
+    setFormData(prev => prev ? { ...prev, [name]: processedValue } : null)
+    setHasChanges(true)
+  }
 
   // Reset form data from the original transaction
   const handleCancel = () => {
     if (transaction) {
-      const transactionCreate: TransactionCreate = {
+      const transactionUpdate: TransactionUpdate = {
+        id: transaction.id,
+        createdAt: transaction.createdAt,
         description: transaction.description,
         transactionDate: transaction.transactionDate,
         transactionType: transaction.transactionType,
@@ -88,7 +93,7 @@ export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }:
         trainingProvider: transaction.trainingProvider,
         uln: transaction.uln,
       }
-      setFormData(transactionCreate)
+      setFormData(transactionUpdate)
       setIsEditing(false)
       setHasChanges(false)
     }
@@ -101,7 +106,7 @@ export function TransactionDetailModal({ transaction, isOpen, onClose, onSave }:
       setIsEditing(false)
       setHasChanges(false)
     } catch (err) {
-      console.log(err.message || 'Failed to update transaction');
+      console.log((err as Error).message || 'Failed to update transaction');
     }
   };
 

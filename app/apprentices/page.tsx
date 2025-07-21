@@ -3,8 +3,8 @@
 import React from "react"
 import { ApprenticeSearch } from "@/components/apprentices/apprentice-search"
 import { ApprenticeTable } from "@/components/apprentices/apprentice-table"
-import { getAllApprentices, createApprentice } from "@/lib/fetch-calls"
-import { ApprenticeCreateModal } from "@/components/apprentices/apprentice-create-modal"
+import { getAllApprentices, createApprentice } from "@/lib/apprenticeApiCalls";
+import { ApprenticeCreateModal } from "@/components/apprentices/apprentice-create-modal";
 import type { Apprentice, ApprenticeCreate } from "@/types/apprentice"
 import { Button } from "@/components/ui/button"
 import { Download, Plus } from "lucide-react"

@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Badge } from "@/components/ui/badge"
 import { Search, X } from "lucide-react"
-import {findTransactions} from "@/lib/fetch-calls"
+import {findTransactions} from "@/lib/transactionApiCalls"
 import {Transaction, TransactionFind} from "@/types/transaction";
 
 
@@ -71,16 +71,19 @@ export function TransactionSearch({ setTransactionsState }: TransactionSearchPro
     return filters
   }
 
-  const activeFilters = getActiveFilters();
-
-  //had to ask AI for help with this as i kept getting an error when i was trying to display the transactionQuery data
-  //in the value property of the inputs
-  const formatDateForInput = (date: Date | null) => {
-    if (!date) return '';
+  //AIing
+  const formatDateForInput = (date: Date | null): string => {
+    if (!date) {
+      return "";
+    }
+    // Format the date to "YYYY-MM-DD"
+    const year = date.getFullYear();
     const month = (date.getMonth() + 1).toString().padStart(2, '0');
     const day = date.getDate().toString().padStart(2, '0');
-    return `${date.getFullYear()}-${month}-${day}`;
+    return `${year}-${month}-${day}`;
   };
+
+  const activeFilters = getActiveFilters();
 
   return (
       <Card>
