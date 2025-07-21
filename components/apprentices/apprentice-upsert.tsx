@@ -67,8 +67,7 @@ export default function ApprenticeUpsert() {
                     const parsedData: ApprenticeCreate[] = result.data.map((row: any) => ({
                         name: row['Apprentice name'] || null,
                         startDate: new Date(row['Planned start date']),
-                        status: row['Apprentice confirmation'] === 'Confirmed' ? 'Confirmed' :
-                            row['Apprentice confirmation'] === 'Overdue' ? 'Overdue' : null,
+                        status: row['Status'] || null, // Use the 'Status' column from CSV
                         uln: row['ULN'] ? Number(row['ULN']) : null,
                         dateOfBirth: row['Date of birth'] ? new Date(row['Date of birth']) : null,
                         apprenticeAchievement: null,
@@ -102,13 +101,21 @@ export default function ApprenticeUpsert() {
                         withdrawalDate: null
                     }));
 
+                    // Validate that all records have a valid status
+                    const invalidRecords = parsedData.filter((record, index) => !record.status);
+                    if (invalidRecords.length > 0) {
+                        throw new Error(
+                            `Invalid or missing 'Status' in rows: ${invalidRecords
+                                .map((_, index) => index)
+                                .join(', ')}`
+                        );
+                    }
+
                     setJsonData(parsedData);
                     setUploadProgress(50);
                     console.log('Parsed data:', parsedData);
                     // Upload to API
-                    // uploadApprentices(parsedData);
-                    setUploadProgress(50);
-
+                    await uploadApprentices(parsedData);
                     setUploadProgress(100);
                     setTimeout(() => {
                         setIsUploading(false);
