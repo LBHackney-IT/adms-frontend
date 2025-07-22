@@ -5,6 +5,7 @@ import "./globals.css"
 import { Header } from "@/components/layout/header"
 import { Sidebar } from "@/components/layout/sidebar"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { SessionProvider } from "next-auth/react"
 
 const inter = Inter({ subsets: ["latin"] })
 
@@ -18,7 +19,9 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+
   return (
+      <SessionProvider>
     <html lang="en">
       <body className={inter.className}>
         <TooltipProvider>
@@ -32,5 +35,6 @@ export default function RootLayout({
         </TooltipProvider>
       </body>
     </html>
+      </SessionProvider>
   )
 }
