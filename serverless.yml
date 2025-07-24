@@ -1,0 +1,14 @@
+service: adms-frontend
+
+provider:
+  name: aws
+  runtime: nodejs20
+  region: eu-west-2
+
+plugins:
+  - serverless-nextjs-plugin
+
+custom:
+  serverlessNextjs:
+    memory: 512
+    timeout: 30
